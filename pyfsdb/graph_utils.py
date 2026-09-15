@@ -95,10 +95,14 @@ def set_graph_parameters(control: Axes | FacetGrid, args: Namespace):
         sns.move_legend(control, *pass_args, **pass_kwargs)
 
 
-def output_plot(plt, output_file, args):
+def output_plot(plt, output_file, args, orient: str = "v"):
     """Actually save the file and set some other plot defaults."""
 
-    plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+    if orient == "h":
+        plt.gcf().axes[0].xaxis.get_major_formatter().set_scientific(False)
+    else:
+        plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+
     plt.xticks(rotation=args.yr)
     plt.tight_layout()
     plt.savefig(output_file, dpi=args.dpi)

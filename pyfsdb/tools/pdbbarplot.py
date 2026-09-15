@@ -54,6 +54,13 @@ def parse_args() -> Namespace:
     )
 
     parser.add_argument(
+        "-z",
+        "--horizontal",
+        action="store_true",
+        help="Plot the chart horizontally instead",
+    )
+
+    parser.add_argument(
         "input_file", type=FileType("r"), nargs="?", default=sys.stdin, help=""
     )
 
@@ -108,15 +115,19 @@ def main():
 
     df = pyfsdb.Fsdb(file_handle=args.input_file).get_pandas(usecols=columns)
 
+    orientation = "v"
+    if args.horizontal:
+        orientation = "h"
     axes = sns.barplot(
         df,
         x=args.x_column,
         y=args.y_column,
         hue=hue,
+        orient=orientation,
     )
 
     pyfsdb.graph_utils.set_graph_parameters(axes, args)
-    pyfsdb.graph_utils.output_plot(plt, args.output_file, args)
+    pyfsdb.graph_utils.output_plot(plt, args.output_file, args, orient=orientation)
 
 
 if __name__ == "__main__":

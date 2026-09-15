@@ -18,7 +18,7 @@ repos:
   hooks:
     - id: pytest
       name: pytest
-      entry: bash -c "PYTHONPATH=. pytest-3"
+      entry: bash -c "PYTHONPATH=. pytest"
       language: system
       pass_filenames: false
       always_run: true
